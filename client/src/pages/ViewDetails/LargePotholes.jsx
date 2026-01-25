@@ -1,3 +1,4 @@
+import { useState } from "react";
 import {
   MapPin,
   Calendar,
@@ -13,45 +14,40 @@ import {
 } from "lucide-react";
 
 export default function LargePotholes() {
+  const [upvotes, setUpvotes] = useState(45);
+
   return (
     <section className="bg-gray-50 min-h-screen py-10">
       <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-3 gap-8">
 
-        {/* LEFT MAIN */}
+        {/* LEFT COLUMN */}
         <div className="lg:col-span-2 space-y-6">
 
-          {/* ISSUE HEADER */}
-          <div className="bg-white  rounded-2xl p-6 shadow-sm">
-            <div className="flex justify-between items-start">
-
-              <div className="flex gap-4">
-                <div className="w-12 h-12 bg-gray-100 rounded-xl flex items-center justify-center">
-                  🕳
-                </div>
-
-                <div>
-                  <div className="flex flex-wrap gap-2 mb-1">
-                    <span className="px-3 py-1 rounded-full text-xs bg-red-100 text-red-600">
-                      ● Critical
-                    </span>
-                    <span className="px-3 py-1 rounded-full text-xs bg-red-100 text-red-600">
-                      ⚠ Critical
-                    </span>
-                    <span className="px-3 py-1 rounded-full text-xs bg-teal-100 text-primary">
-                      AI Detected
-                    </span>
-                  </div>
-
-                  <h2 className="text-xl font-semibold">
-                    Large pothole on MG Road
-                  </h2>
-
-                  <p className="text-sm text-gray-500">
-                    Ticket ID: #ISS-001
-                  </p>
-                </div>
+          {/* HEADER */}
+          <div className="bg-white rounded-2xl p-6 shadow-sm">
+            <div className="flex gap-4">
+              <div className="w-12 h-12 bg-gray-100 rounded-xl flex items-center justify-center">
+                🕳
               </div>
 
+              <div>
+                <div className="flex gap-2 mb-1 flex-wrap">
+                  <span className="px-3 py-1 rounded-full text-xs bg-red-100 text-red-600">
+                    ● Critical
+                  </span>
+                  <span className="px-3 py-1 rounded-full text-xs bg-red-100 text-red-600">
+                    ⚠ Critical
+                  </span>
+                  <span className="px-3 py-1 rounded-full text-xs bg-teal-100 text-primary">
+                    AI Detected
+                  </span>
+                </div>
+
+                <h2 className="text-xl font-semibold">
+                  Large pothole on MG Road
+                </h2>
+                <p className="text-sm text-gray-500">Ticket ID: #ISS-001</p>
+              </div>
             </div>
 
             <p className="mt-4 text-gray-600">
@@ -67,10 +63,8 @@ export default function LargePotholes() {
           </div>
 
           {/* TIMELINE */}
-          <div className="bg-white  rounded-2xl p-6 shadow-sm">
-            <h3 className="font-semibold text-lg mb-5">
-              Resolution Timeline
-            </h3>
+          <div className="bg-white rounded-2xl p-6 shadow-sm">
+            <h3 className="font-semibold text-lg mb-5">Resolution Timeline</h3>
 
             <Timeline icon={CheckCircle} title="Reported" time="Jan 5, 2024 — 5:30 AM" active />
             <Timeline icon={CheckCircle} title="Acknowledged" time="Jan 5, 2024 — 6:30 AM" active />
@@ -109,13 +103,41 @@ export default function LargePotholes() {
         {/* RIGHT SIDEBAR */}
         <div className="space-y-6">
 
+          {/* ACTIONS */}
           <div className="bg-white rounded-2xl p-6 shadow-sm">
             <h3 className="font-semibold mb-4">Actions</h3>
-            <Action icon={ThumbsUp} label="Upvote (45)" />
-            <Action icon={Share2} label="Share Issue" />
-            <Action icon={Flag} label="Flag as Duplicate" danger />
+
+            <button
+              onClick={() => setUpvotes(prev => prev + 1)}
+              className="w-full flex items-center gap-3 border px-4 py-3 rounded-xl mb-3
+                         text-gray-700 hover:text-orange-600 hover:border-orange-300 hover:bg-orange-50
+                         transition-all duration-200"
+            >
+              <ThumbsUp size={18} />
+              Upvote ({upvotes})
+            </button>
+
+            <button
+              onClick={() => navigator.clipboard.writeText(window.location.href)}
+              className="w-full flex items-center gap-3 border px-4 py-3 rounded-xl mb-3
+                         text-gray-700 hover:text-orange-600 hover:border-orange-300 hover:bg-orange-50
+                         transition-all duration-200"
+            >
+              <Share2 size={18} />
+              Share Issue
+            </button>
+
+            <button
+              className="w-full flex items-center gap-3 border px-4 py-3 rounded-xl
+                         text-orange-600 border-orange-200 hover:bg-orange-50
+                         transition-all duration-200"
+            >
+              <Flag size={18} />
+              Flag as Duplicate
+            </button>
           </div>
 
+          {/* STATS */}
           <div className="bg-white rounded-2xl p-6 shadow-sm">
             <h3 className="font-semibold mb-4">Issue Stats</h3>
             <Stat label="Time since reported" value="about 2 years" />
@@ -124,6 +146,7 @@ export default function LargePotholes() {
             <Stat label="Ward Issues" value="2" />
           </div>
 
+          {/* RELATED */}
           <div className="bg-white rounded-2xl p-6 shadow-sm">
             <h3 className="font-semibold mb-4">Related Issues</h3>
             <div className="bg-gray-50 p-4 rounded-xl">
@@ -165,19 +188,6 @@ function Timeline({ icon: Icon, title, time, active }) {
         {time && <p className="text-xs text-gray-500">{time}</p>}
       </div>
     </div>
-  );
-}
-
-function Action({ icon: Icon, label, danger }) {
-  return (
-    <button
-      className={`w-full flex items-center gap-3 border px-4 py-3 rounded-xl mb-3 
-        ${danger ? "text-orange-600 border-orange-200 hover:bg-orange-50" : "hover:bg-gray-50"}
-        transition`}
-    >
-      <Icon size={18} />
-      {label}
-    </button>
   );
 }
 
