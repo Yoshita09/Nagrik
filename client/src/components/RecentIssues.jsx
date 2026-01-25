@@ -1,4 +1,5 @@
 import IssueCard from "./IssueCard";
+import LargePotholes from "../pages/LargePotholes";
 
 export default function RecentIssues() {
   const issues = [
@@ -15,7 +16,8 @@ export default function RecentIssues() {
       time: "about 2 years ago",
       votes: 45,
       ai: true,
-      icon: "🕳"
+      icon: "🕳",
+      route: "/large-potholes"
     },
     {
       title: "Streetlight not working",
@@ -30,7 +32,8 @@ export default function RecentIssues() {
       time: "about 2 years ago",
       votes: 28,
       ai: false,
-      icon: "💡"
+      icon: "💡",
+      route: "/streetlight"
     },
     {
       title: "Garbage overflow at bin",
@@ -45,7 +48,8 @@ export default function RecentIssues() {
       time: "about 2 years ago",
       votes: 15,
       ai: true,
-      icon: "🗑"
+      icon: "🗑",
+      route: "/garbage"
     },
     {
       title: "Water pipeline leak",
@@ -60,7 +64,8 @@ export default function RecentIssues() {
       time: "about 2 years ago",
       votes: 32,
       ai: false,
-      icon: "💧"
+      icon: "💧",
+      route: "/pipeline"
     },
     {
       title: "Sewage blockage",
@@ -75,7 +80,8 @@ export default function RecentIssues() {
       time: "about 2 years ago",
       votes: 10,
       ai: false,
-      icon: "🚰"
+      icon: "🚰",
+      route: "/sewage"
     },
     {
       title: "Multiple potholes on inner road",
@@ -90,7 +96,8 @@ export default function RecentIssues() {
       time: "about 2 years ago",
       votes: 38,
       ai: true,
-      icon: "🛣"
+      icon: "🛣",
+      route: "/inner-road"
     }
   ];
 
@@ -112,7 +119,7 @@ export default function RecentIssues() {
           </button>
         </div>
 
-        {/* Cards */}
+        {/* Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {issues.map((item, i) => (
             <IssueCard key={i} data={item} />

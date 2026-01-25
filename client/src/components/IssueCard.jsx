@@ -4,11 +4,16 @@ import {
   ThumbsUp,
   ChevronRight
 } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 export default function IssueCard({ data }) {
+  const navigate = useNavigate();
+
   return (
-    <div className="bg-white border border-gray-200 rounded-2xl shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300">
+    <div className="bg-white border border-gray-200 rounded-2xl shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
+
       <div className="p-6">
+
         {/* Header */}
         <div className="flex justify-between items-start">
           <div className="flex items-center gap-3">
@@ -30,22 +35,20 @@ export default function IssueCard({ data }) {
                 AI Detected
               </span>
             )}
-            <span
-              className={`px-3 py-1 rounded-full text-xs ${data.statusStyle}`}
-            >
+            <span className={`px-3 py-1 rounded-full text-xs ${data.statusStyle}`}>
               {data.status}
             </span>
           </div>
         </div>
 
         {/* Description */}
-        <p className="text-gray-600 text-sm mt-4">{data.desc}</p>
+        <p className="text-gray-600 text-sm mt-4">
+          {data.desc}
+        </p>
 
         {/* Tags */}
         <div className="flex gap-2 mt-4 flex-wrap">
-          <span
-            className={`px-3 py-1 rounded-full text-xs ${data.priorityStyle}`}
-          >
+          <span className={`px-3 py-1 rounded-full text-xs ${data.priorityStyle}`}>
             {data.priority}
           </span>
           <span className="px-3 py-1 rounded-full text-xs bg-gray-100 text-gray-600">
@@ -65,16 +68,18 @@ export default function IssueCard({ data }) {
             <ThumbsUp size={14} /> {data.votes}
           </span>
         </div>
+
       </div>
 
-      {/* Footer */}
+      {/* CTA */}
       <div className="border-t px-4 py-4">
         <button
+          onClick={() => navigate(data.route)}
           className="w-full flex items-center justify-between px-5 py-3 
-               rounded-xl text-sm font-medium text-gray-600
-               bg-gray-50 border border-gray-200
-               hover:bg-orange-500 hover:text-white hover:border-orange-500
-               transition-all duration-300 group"
+                     rounded-xl text-sm font-medium text-gray-600
+                     bg-gray-50 border border-gray-200
+                     hover:bg-[#ff8a1f] hover:text-white hover:border-[#ff8a1f]
+                     transition-all duration-300 group"
         >
           <span>View Details</span>
           <ChevronRight
@@ -83,6 +88,7 @@ export default function IssueCard({ data }) {
           />
         </button>
       </div>
+
     </div>
   );
 }
