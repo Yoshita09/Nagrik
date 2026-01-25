@@ -8,14 +8,13 @@
 
 /* Theme variables */
 @theme {
-  --color-primary: #5044E5;
-  --color-secondary: #6366F1;
-  --color-accent: #EEF2FF;
+  --color-primary: #0f766e;        /* Teal main brand */
+  --color-secondary: #14b8a6;      /* Soft teal */
+  --color-accent: #22c55e;         /* Success green */
 
-  --color-text-primary: #111827;
-  --color-text-secondary: #4B5563;
+  --color-text-primary: #0f172a;   /* Dark slate */
+  --color-text-secondary: #475569; /* Muted slate */
 
-  --color-bg-main: #F9FAFB;
-  --color-card: #FFFFFF;
+  --color-bg-main: #f7faf9;        /* Soft background */
+  --color-card: #ffffff;           /* Cards */
 }
-
