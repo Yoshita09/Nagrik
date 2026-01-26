@@ -8,6 +8,8 @@ import Garbage from "./pages/ViewDetails/Garbage";
 import Pipeline from "./pages/ViewDetails/Pipeline";
 import Sewage from "./pages/ViewDetails/Sewage";
 import InnerRoad from "./pages/ViewDetails/InnerRoad";
+import Ward_map from "./pages/Ward_map";
+import Report_issue from "./pages/Report_issue";
 export default function App() {
   return (
     <BrowserRouter>
@@ -20,6 +22,8 @@ export default function App() {
         <Route path="/pipeline" element={<Pipeline />} />
         <Route path="/sewage" element={<Sewage />} />
         <Route path="/inner-road" element={<InnerRoad />} />
+        <Route path="/ward-map" element={<Ward_map />} />
+        <Route path="/report" element={<Report_issue/>} />
 
       </Routes>
       <Footer />

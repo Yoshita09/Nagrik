@@ -18,3 +18,8 @@
   --color-bg-main: #f7faf9;        /* Soft background */
   --color-card: #ffffff;           /* Cards */
 }
+
+.leaflet-container {
+  height: 100%;
+  width: 100%;
+}

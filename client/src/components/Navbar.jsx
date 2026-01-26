@@ -18,7 +18,7 @@ export default function Navbar() {
   const navItems = [
     { path: "/", label: "Home", icon: Home },
     { path: "/ai", label: "AI Assistant", icon: Bot },
-    { path: "/ward", label: "Ward Map", icon: MapPin },
+    { path: "/ward-map", label: "Ward Map", icon: MapPin },
     { path: "/report", label: "Report Issue", icon: AlertTriangle },
     { path: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
     { path: "/profile", label: "Profile", icon: User },
