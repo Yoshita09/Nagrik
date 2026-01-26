@@ -10,6 +10,7 @@ import Sewage from "./pages/ViewDetails/Sewage";
 import InnerRoad from "./pages/ViewDetails/InnerRoad";
 import Ward_map from "./pages/Ward_map";
 import Report_issue from "./pages/Report_issue";
+import Profile from "./pages/Profile";
 export default function App() {
   return (
     <BrowserRouter>
@@ -24,6 +25,7 @@ export default function App() {
         <Route path="/inner-road" element={<InnerRoad />} />
         <Route path="/ward-map" element={<Ward_map />} />
         <Route path="/report" element={<Report_issue/>} />
+        <Route path="/profile" element={<Profile/>} />
 
       </Routes>
       <Footer />
