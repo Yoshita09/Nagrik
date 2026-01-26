@@ -33,13 +33,12 @@ export default function UploadStep({ image, setImage, onNext }) {
     ctx.drawImage(video, 0, 0);
 
     setImage(canvas.toDataURL("image/png"));
-    stream.getTracks().forEach(t => t.stop());
+    stream.getTracks().forEach((t) => t.stop());
     setCameraOn(false);
   };
 
   return (
     <div className="bg-white rounded-2xl shadow-sm p-8">
-
       <h3 className="text-xl font-semibold mb-1 flex items-center gap-2">
         <Upload size={20} /> Upload Photo for AI Analysis
       </h3>
@@ -49,10 +48,13 @@ export default function UploadStep({ image, setImage, onNext }) {
       </p>
 
       <div className="border-2 border-dashed border-teal-300 rounded-xl p-8 text-center">
-
         {cameraOn && (
           <div className="space-y-4">
-            <video ref={videoRef} autoPlay className="mx-auto rounded-xl max-h-72 border" />
+            <video
+              ref={videoRef}
+              autoPlay
+              className="mx-auto rounded-xl max-h-72 border"
+            />
             <button
               onClick={capture}
               className="px-6 py-3 bg-orange-500 text-white rounded-xl font-medium"
@@ -94,7 +96,9 @@ export default function UploadStep({ image, setImage, onNext }) {
                 type="file"
                 accept="image/*"
                 hidden
-                onChange={(e) => setImage(URL.createObjectURL(e.target.files[0]))}
+                onChange={(e) =>
+                  setImage(URL.createObjectURL(e.target.files[0]))
+                }
               />
             </div>
           </>
@@ -103,15 +107,25 @@ export default function UploadStep({ image, setImage, onNext }) {
         {image && (
           <div className="space-y-4">
             <img src={image} className="mx-auto max-h-64 rounded-xl border" />
-            <button
-              onClick={onNext}
-              className="px-6 py-3 bg-teal-600 text-white rounded-xl font-medium hover:bg-teal-700"
-            >
-              Continue with AI Detection →
-            </button>
+
+            <div className="flex justify-between">
+              <button
+                onClick={() => setImage(null)}
+                className="px-5 py-2.5 border rounded-xl font-medium
+          hover:bg-gray-100 transition"
+              >
+                ← Retake
+              </button>
+
+              <button
+                onClick={onNext}
+                className="px-6 py-3 bg-teal-600 text-white rounded-xl font-medium hover:bg-teal-700 transition"
+              >
+                Continue with AI Detection →
+              </button>
+            </div>
           </div>
         )}
-
       </div>
     </div>
   );

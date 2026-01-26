@@ -2,6 +2,7 @@ import { useState } from "react";
 import UploadStep from "../components/UploadStep";
 import DetailsStep from "../components/DetailsStep";
 import ReviewStep from "../components/ReviewStep";
+import ReportSuccess from "../components/ReportSuccess";
 
 export default function ReportIssue() {
   const [step, setStep] = useState(1);
@@ -16,6 +17,20 @@ export default function ReportIssue() {
     landmark: "",
     address: "",
   });
+  const resetForm = () => {
+  setStep(1);
+  setImage(null);
+  setForm({
+    category: "Pothole / Road Damage",
+    title: "Pothole detected on road",
+    description:
+      "AI has detected a pothole in the uploaded image. The pothole appears to be medium-sized and could pose a safety risk for vehicles.",
+    ward: "",
+    landmark: "",
+    address: "",
+  });
+};
+
 
   return (
     <section className="bg-gray-50 min-h-screen py-10">
@@ -60,8 +75,17 @@ export default function ReportIssue() {
             image={image}
             form={form}
             onBack={() => setStep(2)}
+            onNext={() => setStep(4)}
           />
         )}
+        {step === 4 && (
+          <ReportSuccess
+            image={image}
+            form={form}
+            onBack={resetForm}
+          />
+        )}
+
 
       </div>
     </section>
