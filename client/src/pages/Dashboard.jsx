@@ -1,31 +1,50 @@
-const stats = [
-  { title: "Total Issues", value: "248", icon: "📄" },
-  { title: "Resolved", value: "145", trend: "+12% vs last week", icon: "✅", bg: "bg-green-50" },
-  { title: "Pending", value: "77", icon: "⚡", bg: "bg-orange-50" },
-  { title: "Active Citizens", value: "2,847", icon: "👥", bg: "bg-teal-50" },
-];
+// src/pages/Dashboard.jsx
+import HeroCard from "../components/Home_card";
+import Graphs from "../components/Graphs";
+import WeeklyTrend from "../components/WeeklyTrend";
+import PriorityQueue from "../components/PriorityQueue";
 
 export default function Dashboard() {
   return (
-    <section className="max-w-7xl mx-auto px-6 pb-24">
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        {stats.map((s, i) => (
-          <div
-            key={i}
-            className={`p-6 rounded-2xl shadow-soft ${s.bg || "bg-white"}`}
-          >
-            <div className="flex justify-between items-start">
-              <p className="text-gray-600 font-medium">{s.title}</p>
-              <span className="text-xl">{s.icon}</span>
-            </div>
+    <section className="bg-gray-50 min-h-screen p-8">
+      <div className="max-w-7xl mx-auto space-y-4">
 
-            <h2 className="text-3xl font-bold mt-4">{s.value}</h2>
-
-            {s.trend && (
-              <p className="text-green-600 text-sm mt-2">{s.trend}</p>
-            )}
+        {/* Header */}
+        <div className="flex justify-between items-center">
+          <div>
+            <h1 className="text-2xl font-bold">Department Dashboard</h1>
+            <p className="text-gray-500">
+              Unified view of civic issues across all departments
+            </p>
           </div>
-        ))}
+
+          <div className="flex gap-3">
+            <button className="border px-4 py-2 rounded-lg">
+              Alerts{" "}
+              <span className="ml-2 bg-red-500 text-white px-2 rounded-full">
+                3
+              </span>
+            </button>
+            <button className="bg-teal-600 text-white px-4 py-2 rounded-lg">
+              Export Report
+            </button>
+          </div>
+        </div>
+
+        {/* Cards */}
+        <HeroCard />
+
+        {/* Graphs */}
+        <Graphs />
+
+        {/* Weekly Trend + Priority Queue */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          <div className="lg:col-span-2">
+            <WeeklyTrend />
+          </div>
+          <PriorityQueue />
+        </div>
+
       </div>
     </section>
   );

@@ -43,7 +43,7 @@ export default function HeroCard() {
   ];
 
   return (
-    <section className="max-w-7xl mx-auto px-6 pb-24">
+    <section className="max-w-7xl mx-auto px-6 pb-6">
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
 
         {stats.map((item, i) => {
