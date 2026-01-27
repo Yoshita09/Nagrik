@@ -3,6 +3,7 @@ import HeroCard from "../components/Home_card";
 import Graphs from "../components/Graphs";
 import WeeklyTrend from "../components/WeeklyTrend";
 import PriorityQueue from "../components/PriorityQueue";
+import DepartmentPerformance from "../components/DepartmentPerformance";
 
 export default function Dashboard() {
   return (
@@ -44,6 +45,7 @@ export default function Dashboard() {
           </div>
           <PriorityQueue />
         </div>
+        <DepartmentPerformance />
 
       </div>
     </section>
