@@ -39,7 +39,8 @@ export default function Dashboard() {
         <Graphs />
 
         {/* Weekly Trend + Priority Queue */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 items-stretch">
+
           <div className="lg:col-span-2">
             <WeeklyTrend />
           </div>

@@ -46,7 +46,7 @@ export default function Graphs() {
               <XAxis dataKey="ward" />
               <YAxis />
               <Tooltip />
-              <Bar dataKey="resolved" fill="#22c55e" radius={[6, 6, 0, 0]} />
+              <Bar dataKey="resolved" fill="#2ca36a" radius={[6, 6, 0, 0]} />
               <Bar dataKey="pending" fill="#f59e0b" radius={[6, 6, 0, 0]} />
               <Bar dataKey="critical" fill="#ef4444" radius={[6, 6, 0, 0]} />
             </BarChart>

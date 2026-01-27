@@ -27,7 +27,7 @@ const issues = [
 
 export default function PriorityQueue() {
   return (
-    <div className="bg-white border border-gray-200 rounded-2xl p-6 shadow-sm">
+    <div className="bg-white border border-gray-200 rounded-2xl p-6 shadow-sm h-full">
       
       {/* Header */}
       <div className="flex justify-between items-start mb-6">

@@ -26,27 +26,45 @@ export default function WeeklyTrend() {
         Issues reported vs resolved this week
       </p>
 
-      <ResponsiveContainer width="100%" height={320}>
-        <LineChart data={data}>
-          <XAxis dataKey="day" />
-          <YAxis />
-          <Tooltip />
-          <Line
-            type="monotone"
-            dataKey="reported"
-            stroke="#f97316"
-            strokeWidth={3}
-            dot={{ r: 4 }}
-          />
-          <Line
-            type="monotone"
-            dataKey="resolved"
-            stroke="#22c55e"
-            strokeWidth={3}
-            dot={{ r: 4 }}
-          />
-        </LineChart>
-      </ResponsiveContainer>
+      <ResponsiveContainer width="100%" height={300}>
+  <LineChart
+    data={data}
+    margin={{
+      top: 10,
+      right: 30,
+      left: 0,
+      bottom: 10,
+    }}
+  >
+    <XAxis
+      dataKey="day"
+      tickLine={false}
+      axisLine={false}
+    />
+    <YAxis
+      tickLine={false}
+      axisLine={false}
+    />
+    <Tooltip />
+    <Line
+      type="monotone"
+      dataKey="reported"
+      stroke="#f97316"
+      strokeWidth={3}
+      dot={{ r: 4 }}
+      activeDot={{ r: 6 }}
+    />
+    <Line
+      type="monotone"
+      dataKey="resolved"
+      stroke="#22c55e"
+      strokeWidth={3}
+      dot={{ r: 4 }}
+      activeDot={{ r: 6 }}
+    />
+  </LineChart>
+</ResponsiveContainer>
+
 
       <div className="flex justify-center gap-6 mt-4 text-sm">
         <div className="flex items-center gap-2">
