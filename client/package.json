@@ -10,6 +10,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@clerk/clerk-react": "^5.59.6",
     "@tailwindcss/vite": "^4.1.18",
     "leaflet": "^1.9.4",
     "lucide-react": "^0.563.0",

@@ -7,21 +7,43 @@ import {
   LayoutDashboard,
   User,
   Menu,
-  X
+  X,
+  LogIn,
+  LogOut
 } from "lucide-react";
 import { useState } from "react";
+import { useUser, SignOutButton } from "@clerk/clerk-react";
 import logo from "../assets/logo.png";
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
+  const { user, isLoaded } = useUser();
+
+  const role = localStorage.getItem("role"); // ✅ citizen | government
+
+  if (!isLoaded) return null;
 
   const navItems = [
     { path: "/", label: "Home", icon: Home },
-    { path: "/ai", label: "AI Assistant", icon: Bot },
-    { path: "/ward-map", label: "Ward Map", icon: MapPin },
-    { path: "/report", label: "Report Issue", icon: AlertTriangle },
-    { path: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
-    { path: "/profile", label: "Profile", icon: User },
+
+    // Citizen only
+    ...(role === "citizen"
+      ? [
+          { path: "/ai", label: "AI Assistant", icon: Bot },
+          { path: "/report", label: "Report Issue", icon: AlertTriangle },
+          { path: "/ward-map", label: "Ward Map", icon: MapPin },
+          { path: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
+          { path: "/profile", label: "Profile", icon: User },
+        ]
+      : []),
+
+    // Government only
+    ...(role === "government"
+      ? [
+          { path: "/ward-map", label: "Ward Map", icon: MapPin },
+          { path: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
+        ]
+      : []),
   ];
 
   return (
@@ -39,7 +61,7 @@ export default function Navbar() {
         </div>
 
         {/* Desktop Nav */}
-        <div className="hidden md:flex gap-2 text-sm font-medium">
+        <div className="hidden md:flex gap-2 text-sm font-medium items-center">
           {navItems.map((item, i) => {
             const Icon = item.icon;
             return (
@@ -60,6 +82,27 @@ export default function Navbar() {
               </NavLink>
             );
           })}
+
+          {/* Login / Logout */}
+          {!user ? (
+            <NavLink
+              to="/login"
+              className="flex items-center gap-2 px-4 py-2 rounded-xl text-gray-700 hover:bg-gray-100"
+            >
+              <LogIn size={18} />
+              Login
+            </NavLink>
+          ) : (
+            <SignOutButton>
+              <button
+                onClick={() => localStorage.removeItem("role")}
+                className="flex items-center gap-2 px-4 py-2 rounded-xl text-red-600 hover:bg-red-50"
+              >
+                <LogOut size={18} />
+                Logout
+              </button>
+            </SignOutButton>
+          )}
         </div>
 
         {/* Mobile Menu Button */}
@@ -95,6 +138,31 @@ export default function Navbar() {
               </NavLink>
             );
           })}
+
+          {/* Login / Logout (Mobile) */}
+          {!user ? (
+            <NavLink
+              to="/login"
+              onClick={() => setOpen(false)}
+              className="flex items-center gap-3 px-4 py-3 rounded-xl text-gray-700 hover:bg-gray-100"
+            >
+              <LogIn size={18} />
+              Login
+            </NavLink>
+          ) : (
+            <SignOutButton>
+              <button
+                onClick={() => {
+                  localStorage.removeItem("role");
+                  setOpen(false);
+                }}
+                className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-red-600 hover:bg-red-50"
+              >
+                <LogOut size={18} />
+                Logout
+              </button>
+            </SignOutButton>
+          )}
         </div>
       )}
     </nav>
