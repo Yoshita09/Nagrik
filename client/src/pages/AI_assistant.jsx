@@ -17,6 +17,8 @@ export default function AIAssistant() {
       time: "08:11 PM",
     },
   ]);
+  const BASE_URL = import.meta.env.VITE_BASE_URL;
+
 
   const [input, setInput] = useState("");
   const chatEndRef = useRef(null);
@@ -41,13 +43,14 @@ const [listening, setListening] = useState(false);
   setInput("");
 
   try {
-    const res = await fetch("https://nagrik-server.vercel.app/chat", {
+    const res = await fetch(`${BASE_URL}/chat`, {
   method: "POST",
   headers: {
     "Content-Type": "application/json",
   },
   body: JSON.stringify({ message: userText }),
 });
+
 
 
     const data = await res.json();
