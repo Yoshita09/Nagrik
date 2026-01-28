@@ -6,6 +6,7 @@ import {
   YAxis,
   Tooltip,
   ResponsiveContainer,
+    CartesianGrid,
 } from "recharts";
 
 const data = [
@@ -36,14 +37,19 @@ export default function WeeklyTrend() {
       bottom: 10,
     }}
   >
+    <CartesianGrid
+  stroke="#e5e7eb"
+  strokeDasharray="3 3"
+/>
+
     <XAxis
       dataKey="day"
       tickLine={false}
-      axisLine={false}
+      axisLine={true}
     />
     <YAxis
       tickLine={false}
-      axisLine={false}
+      axisLine={true}
     />
     <Tooltip />
     <Line
@@ -63,6 +69,7 @@ export default function WeeklyTrend() {
       activeDot={{ r: 6 }}
     />
   </LineChart>
+  
 </ResponsiveContainer>
 
 
