@@ -1,8 +1,8 @@
 import { useState } from "react";
-import UploadStep from "../components/UploadStep";
-import DetailsStep from "../components/DetailsStep";
-import ReviewStep from "../components/ReviewStep";
-import ReportSuccess from "../components/ReportSuccess";
+import UploadStep from "../components/ReportIssue/UploadStep";
+import DetailsStep from "../components/ReportIssue/DetailsStep";
+import ReviewStep from "../components/ReportIssue/ReviewStep";
+import ReportSuccess from "../components/ReportIssue/ReportSuccess";
 
 export default function ReportIssue() {
   const [step, setStep] = useState(1);

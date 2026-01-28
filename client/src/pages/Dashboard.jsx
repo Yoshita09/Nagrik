@@ -1,9 +1,9 @@
 // src/pages/Dashboard.jsx
 import HeroCard from "../components/Home_card";
-import Graphs from "../components/Graphs";
-import WeeklyTrend from "../components/WeeklyTrend";
-import PriorityQueue from "../components/PriorityQueue";
-import DepartmentPerformance from "../components/DepartmentPerformance";
+import Graphs from "../components/analysis/Graphs";
+import WeeklyTrend from "../components/analysis/WeeklyTrend";
+import PriorityQueue from "../components/analysis/PriorityQueue";
+import DepartmentPerformance from "../components/analysis/DepartmentPerformance";
 
 export default function Dashboard() {
   return (

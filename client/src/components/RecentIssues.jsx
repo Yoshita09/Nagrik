@@ -1,5 +1,5 @@
 import IssueCard from "./IssueCard";
-import LargePotholes from "../pages/ViewDetails/LargePotholes";
+
 
 export default function RecentIssues() {
   const issues = [

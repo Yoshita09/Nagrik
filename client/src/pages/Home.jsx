@@ -1,5 +1,4 @@
 import Hero from "../components/Hero";
-import Dashboard from "./Dashboard";
 import Home_card from "../components/Home_card";
 import CallToAction from "../components/CallToAction";
 import Features from "../components/Features";
