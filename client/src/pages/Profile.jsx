@@ -28,7 +28,7 @@ export default function Profile() {
             </div>
 
             <div>
-              <h2 className="text-xl font-semibold">Vikram Singh</h2>
+              <h2 className="text-xl font-semibold">Yoshita Singhal</h2>
               <div className="flex gap-2 text-sm items-center flex-wrap">
                 <span className="bg-white/20 px-2 py-0.5 rounded-full">
                   Silver Member
