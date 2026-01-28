@@ -29,57 +29,57 @@ function civicBotLogic(message = "") {
 
   if (text.includes("pothole") || text.includes("road") || text.includes("gaddha")) {
     return `
-📍 Issue: Pothole / Road Damage  
-🏢 Department: Roads & Infrastructure  
-⚠️ Priority: High  
+📍 **Issue:** Pothole / Road Damage  
+🏢 **Department:** Roads & Infrastructure  
+⚠️ **Priority:** High  
 
 Please share:
 1️⃣ Location  
 2️⃣ Severity  
 3️⃣ Photo (optional)
 
-✅ Ticket ID: TKT-${generateTicket()}
+✅ **Ticket ID:** TKT-${generateTicket()}
 `;
   }
 
   if (text.includes("streetlight") || text.includes("light")) {
     return `
-💡 Issue: Streetlight Not Working  
-🏢 Department: Electrical  
-⚠️ Priority: Medium  
+💡 **Issue:** Streetlight Not Working  
+🏢 **Department:** Electrical  
+⚠️ **Priority:** Medium  
 
 Please provide location.
 
-✅ Ticket ID: TKT-${generateTicket()}
+✅ **Ticket ID:** TKT-${generateTicket()}
 `;
   }
 
   if (text.includes("garbage") || text.includes("trash")) {
     return `
-🗑️ Issue: Garbage Overflow
-🏢 Department: Sanitation  
-⚠️ Priority: High  
+🗑️ **Issue:** Garbage Overflow  
+🏢 **Department:** Sanitation  
+⚠️ **Priority:** High  
 
 Please share location.
 
-✅ Ticket ID: TKT-${generateTicket()}
+✅ **Ticket ID:** TKT-${generateTicket()}
 `;
   }
 
   if (text.includes("water") || text.includes("leak")) {
     return `
-💧 Issue: Water Leakage  
-🏢 Department: Water Supply  
-⚠️ Priority: High  
+💧 **Issue:** Water Leakage  
+🏢 **Department:** Water Supply  
+⚠️ **Priority:** High  
 
 Please share location.
 
-✅ Ticket ID: TKT-${generateTicket()}
+✅ **Ticket ID:** TKT-${generateTicket()}
 `;
   }
 
   if (text.includes("track")) {
-    return "🔍 Please provide your Ticket ID to track the complaint.";
+    return "🔍 Please provide your **Ticket ID** to track the complaint.";
   }
 
   return null;
