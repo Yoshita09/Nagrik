@@ -9,7 +9,9 @@ import {
   Menu,
   X,
   LogIn,
-  LogOut
+  LogOut,
+  MessageSquareWarning,
+  FileExclamationPointIcon
 } from "lucide-react";
 import { useState } from "react";
 import { useUser, SignOutButton } from "@clerk/clerk-react";
@@ -41,6 +43,7 @@ export default function Navbar() {
     ...(role === "government"
       ? [
           { path: "/ward-map", label: "Ward Map", icon: MapPin },
+          { path: "/gov-complaints", label: "Complaint Box", icon: FileExclamationPointIcon },
           { path: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
         ]
       : []),
