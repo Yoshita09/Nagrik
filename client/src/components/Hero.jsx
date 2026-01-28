@@ -1,8 +1,20 @@
 import { MessageSquare, Map } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { useUser } from "@clerk/clerk-react";
 
 export default function Hero() {
   const navigate = useNavigate();
+  const { user, isLoaded } = useUser();
+
+  if (!isLoaded) return null;
+
+  const handleNavigate = (path) => {
+    if (!user) {
+      navigate("/login");
+    } else {
+      navigate(path);
+    }
+  };
 
   return (
     <section className="bg-gradient-to-b from-bgsoft to-white py-14 text-center px-6">
@@ -28,7 +40,7 @@ export default function Hero() {
       {/* Buttons */}
       <div className="flex justify-center gap-5 mt-10">
         <button
-          onClick={() => navigate("/report")}
+          onClick={() => handleNavigate("/report")}
           className="flex items-center gap-2 bg-primary text-white px-7 py-3 rounded-xl shadow-soft hover:scale-105 transition"
         >
           <MessageSquare size={18} />
@@ -36,7 +48,7 @@ export default function Hero() {
         </button>
 
         <button
-          onClick={() => navigate("/ward-map")}
+          onClick={() => handleNavigate("/ward-map")}
           className="flex items-center gap-2 border border-gray-300 px-7 py-3 rounded-xl hover:bg-gray-50 transition"
         >
           <Map size={18} />
