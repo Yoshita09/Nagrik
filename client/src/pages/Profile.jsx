@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { User, Mail, Phone, MapPin, Edit, Star } from "lucide-react";
-import MyIssues from "../components/MyIssues";
-import Achievements from "../components/Achievements";
-import Settings from "../components/Settings";
+import MyIssues from "../components/settings/MyIssues";
+import Achievements from "../components/settings/Achievements";
+import Settings from "../components/settings/Settings";
 
 export default function Profile() {
   const [activeTab, setActiveTab] = useState("Overview");
