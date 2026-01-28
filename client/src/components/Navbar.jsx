@@ -60,12 +60,16 @@ export default function Navbar() {
       <div className="max-w-7xl mx-auto px-6 py-4 grid grid-cols-[auto_1fr_auto] items-center">
 
         {/* LEFT — LOGO */}
-        <div className="flex items-center gap-2">
-          <img src={logo} alt="Nagrik Logo" className="h-14 object-contain" />
-          <span className="text-3xl font-bold bg-[linear-gradient(to_right,#0A4C8B,#0f766e)] bg-clip-text text-transparent">
-            Nagrik
-          </span>
-        </div>
+        <NavLink
+  to="/"
+  className="flex items-center gap-2 cursor-pointer"
+>
+  <img src={logo} alt="Nagrik Logo" className="h-14 object-contain" />
+  <span className="text-3xl font-bold bg-[linear-gradient(to_right,#0A4C8B,#0f766e)] bg-clip-text text-transparent">
+    Nagrik
+  </span>
+</NavLink>
+
 
         {/* CENTER — NAV (ONLY IF LOGGED IN) */}
         <div className="hidden md:flex justify-center">
