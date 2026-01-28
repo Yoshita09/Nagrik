@@ -10,8 +10,7 @@ import {
   X,
   LogIn,
   LogOut,
-  MessageSquareWarning,
-  FileExclamationPointIcon
+  FileExclamationPointIcon,
 } from "lucide-react";
 import { useState } from "react";
 import { useUser, SignOutButton } from "@clerk/clerk-react";
@@ -21,15 +20,17 @@ export default function Navbar() {
   const [open, setOpen] = useState(false);
   const { user, isLoaded } = useUser();
 
-  const role = localStorage.getItem("role"); // ✅ citizen | government
+  const role = localStorage.getItem("role"); // citizen | government
 
   if (!isLoaded) return null;
+
+  /* ---------------- ROLE BASED NAV ITEMS ---------------- */
 
   const navItems = [
     { path: "/", label: "Home", icon: Home },
 
-    // Citizen only
-    ...(role === "citizen"
+    // Citizen
+    ...(user && role === "citizen"
       ? [
           { path: "/ai", label: "AI Assistant", icon: Bot },
           { path: "/report", label: "Report Issue", icon: AlertTriangle },
@@ -39,15 +40,21 @@ export default function Navbar() {
         ]
       : []),
 
-    // Government only
-    ...(role === "government"
+    // Government
+    ...(user && role === "government"
       ? [
           { path: "/ward-map", label: "Ward Map", icon: MapPin },
-          { path: "/gov-complaints", label: "Complaint Box", icon: FileExclamationPointIcon },
+          {
+            path: "/gov-complaints",
+            label: "Complaint Box",
+            icon: FileExclamationPointIcon,
+          },
           { path: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
         ]
       : []),
   ];
+
+  /* ---------------- UI ---------------- */
 
   return (
     <nav className="bg-white border-b sticky top-0 z-50">
@@ -108,7 +115,7 @@ export default function Navbar() {
           )}
         </div>
 
-        {/* Mobile Menu Button */}
+        {/* Mobile Toggle */}
         <button
           className="md:hidden"
           onClick={() => setOpen(!open)}
