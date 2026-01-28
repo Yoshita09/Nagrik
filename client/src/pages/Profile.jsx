@@ -82,8 +82,8 @@ export default function Profile() {
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <Info label="Full Name" value="Vikram Singh" icon={<User size={16} />} />
-                <Info label="Email" value="vikram.singh@email.com" icon={<Mail size={16} />} />
+                <Info label="Full Name" value="Yoshita Singhal" icon={<User size={16} />} />
+                <Info label="Email" value="yoshita.singhal@email.com" icon={<Mail size={16} />} />
                 <Info label="Phone" value="+91 98765 43210" icon={<Phone size={16} />} />
                 <Info label="Ward" value="Ward 2" icon={<MapPin size={16} />} />
                 <Info label="Address" value="Residency Area, Ward 2, Bangalore" full />
