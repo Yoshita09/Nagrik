@@ -1,6 +1,9 @@
 import { MessageSquare, Map } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 export default function Hero() {
+  const navigate = useNavigate();
+
   return (
     <section className="bg-gradient-to-b from-bgsoft to-white py-24 text-center px-6">
 
@@ -24,12 +27,18 @@ export default function Hero() {
 
       {/* Buttons */}
       <div className="flex justify-center gap-5 mt-10">
-        <button className="flex items-center gap-2 bg-primary text-white px-7 py-3 rounded-xl shadow-soft hover:scale-105 transition">
+        <button
+          onClick={() => navigate("/report")}
+          className="flex items-center gap-2 bg-primary text-white px-7 py-3 rounded-xl shadow-soft hover:scale-105 transition"
+        >
           <MessageSquare size={18} />
           Start Reporting
         </button>
 
-        <button className="flex items-center gap-2 border border-gray-300 px-7 py-3 rounded-xl hover:bg-gray-50 transition">
+        <button
+          onClick={() => navigate("/ward-map")}
+          className="flex items-center gap-2 border border-gray-300 px-7 py-3 rounded-xl hover:bg-gray-50 transition"
+        >
           <Map size={18} />
           View Ward Map
         </button>
