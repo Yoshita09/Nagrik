@@ -17,6 +17,7 @@ import Report_issue from "./pages/Report_issue";
 import Ward_map from "./pages/Ward_map";
 import GovComplaints from "./pages/ComplaintBox/GovComplaints";
 import GovComplaintUpdate from "./pages/ComplaintBox/GovComplaintUpdate";
+import AIAssistant from "./pages/AI_assistant";
 
 // View Details
 import LargePotholes from "./pages/ViewDetails/LargePotholes";
@@ -63,6 +64,14 @@ export default function App() {
           element={
             <ProtectedRoute allowedRoles={["citizen"]}>
               <Profile />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/ai"
+          element={
+            <ProtectedRoute allowedRoles={["citizen"]}>
+              <AIAssistant />
             </ProtectedRoute>
           }
         />
