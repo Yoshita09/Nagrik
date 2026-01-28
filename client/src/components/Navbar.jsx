@@ -57,21 +57,28 @@ export default function Navbar() {
   /* ---------------- UI ---------------- */
 
   return (
-    <nav className="bg-white border-b sticky top-0 z-50">
+    <nav className="bg-white border-b border-gray-300 sticky top-0 z-50 shadow-sm">
       <div className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
-
         {/* Logo */}
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-1">
           <img
             src={logo}
             alt="Nagrik Logo"
-            className="h-12 rounded-xl object-contain"
+            className="h-14 rounded-xl object-contain"
           />
-          <span className="text-lg font-bold">Nagrik</span>
+          <span
+            className="text-3xl 
+  font-bold 
+  bg-[linear-gradient(to_right,#0A4C8B,#0f766e)]
+  bg-clip-text 
+  text-transparent"
+          >
+            Nagrik
+          </span>
         </div>
 
         {/* Desktop Nav */}
-        <div className="hidden md:flex gap-2 text-sm font-medium items-center">
+        <div className="hidden md:flex gap-2 text-m font-medium items-center">
           {navItems.map((item, i) => {
             const Icon = item.icon;
             return (
@@ -116,10 +123,7 @@ export default function Navbar() {
         </div>
 
         {/* Mobile Toggle */}
-        <button
-          className="md:hidden"
-          onClick={() => setOpen(!open)}
-        >
+        <button className="md:hidden" onClick={() => setOpen(!open)}>
           {open ? <X size={26} /> : <Menu size={26} />}
         </button>
       </div>
