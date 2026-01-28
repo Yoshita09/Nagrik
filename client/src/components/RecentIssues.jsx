@@ -102,7 +102,7 @@ export default function RecentIssues() {
   ];
 
   return (
-    <section className="bg-gray-50 py-20">
+    <section className="bg-gray-50 py-6">
       <div className="max-w-7xl mx-auto px-6">
 
         {/* Header */}

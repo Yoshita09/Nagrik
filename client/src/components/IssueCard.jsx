@@ -11,9 +11,7 @@ export default function IssueCard({ data }) {
 
   return (
     <div className="bg-white border border-gray-200 rounded-2xl shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
-
       <div className="p-6">
-
         {/* Header */}
         <div className="flex justify-between items-start">
           <div className="flex items-center gap-3">
@@ -29,26 +27,34 @@ export default function IssueCard({ data }) {
             </div>
           </div>
 
-          <div className="flex gap-2">
+          <div className="flex gap-2 flex-wrap sm:flex-nowrap">
             {data.ai && (
-              <span className="px-3 py-1 rounded-full text-xs bg-teal-100 text-primary">
+              <span
+                className="px-3 py-1 rounded-full text-xs 
+                     bg-teal-100 text-primary 
+                     whitespace-nowrap"
+              >
                 AI Detected
               </span>
             )}
-            <span className={`px-3 py-1 rounded-full text-xs ${data.statusStyle}`}>
+
+            <span
+              className={`px-3 py-1 rounded-full text-xs 
+                whitespace-nowrap ${data.statusStyle}`}
+            >
               {data.status}
             </span>
           </div>
         </div>
 
         {/* Description */}
-        <p className="text-gray-600 text-sm mt-4">
-          {data.desc}
-        </p>
+        <p className="text-gray-600 text-sm mt-4">{data.desc}</p>
 
         {/* Tags */}
         <div className="flex gap-2 mt-4 flex-wrap">
-          <span className={`px-3 py-1 rounded-full text-xs ${data.priorityStyle}`}>
+          <span
+            className={`px-3 py-1 rounded-full text-xs ${data.priorityStyle}`}
+          >
             {data.priority}
           </span>
           <span className="px-3 py-1 rounded-full text-xs bg-gray-100 text-gray-600">
@@ -68,7 +74,6 @@ export default function IssueCard({ data }) {
             <ThumbsUp size={14} /> {data.votes}
           </span>
         </div>
-
       </div>
 
       {/* CTA */}
@@ -88,7 +93,6 @@ export default function IssueCard({ data }) {
           />
         </button>
       </div>
-
     </div>
   );
 }

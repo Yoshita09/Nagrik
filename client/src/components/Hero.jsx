@@ -5,7 +5,7 @@ export default function Hero() {
   const navigate = useNavigate();
 
   return (
-    <section className="bg-gradient-to-b from-bgsoft to-white py-24 text-center px-6">
+    <section className="bg-gradient-to-b from-bgsoft to-white py-14 text-center px-6">
 
       {/* Badge */}
       <div className="inline-flex items-center gap-2 px-4 py-1 bg-teal-50 text-primary rounded-full text-sm font-medium shadow-sm">
