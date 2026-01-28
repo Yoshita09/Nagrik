@@ -20,77 +20,91 @@ export default function AIAssistant() {
 
   const [input, setInput] = useState("");
   const chatEndRef = useRef(null);
+  const recognitionRef = useRef(null);
+const [listening, setListening] = useState(false);
 
   useEffect(() => {
     chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
-  const sendMessage = () => {
+  const sendMessage = async () => {
   if (!input.trim()) return;
 
   const userText = input;
 
-  let botReply = "Thanks! I'm processing your request. 🤖";
-
-  if (userText.toLowerCase().includes("pothole")) {
-    botReply = `I understand you're reporting a road/pothole issue. Let me help you file this complaint.
-
-📍 **Issue Detected:** Pothole / Road Damage  
-🏢 **Department:** Roads & Infrastructure  
-⚠️ **Priority:** High (Safety Concern)
-
-I'll need a few details:
-1. Can you share the location or address?
-2. How severe is the damage?
-3. Would you like to upload a photo?
-
-Or simply describe the issue and I'll handle the rest!
-
-✅ **Ticket Created:** TKT-2024-0156`;
-  }
-
-  if (userText.toLowerCase().includes("streetlight")) {
-    botReply = `Got it! You're reporting a streetlight issue.
-
-💡 **Issue Detected:** Streetlight Not Working  
-🏢 **Department:** Electrical Maintenance  
-⚠️ **Priority:** Medium  
-
-Please provide:
-1. Location of the streetlight  
-2. Since when it is not working  
-3. Upload a photo (optional)
-
-✅ **Ticket Created:** TKT-2024-0213`;
-  }
-
-  if (userText.toLowerCase().includes("garbage")) {
-    botReply = `Thanks for reporting garbage overflow.
-
-🗑️ **Issue Detected:** Garbage Overflow  
-🏢 **Department:** Sanitation  
-⚠️ **Priority:** High  
-
-Please share:
-1. Exact location  
-2. Severity  
-3. Upload a photo (optional)
-
-✅ **Ticket Created:** TKT-2024-0339`;
-  }
-
-  if (userText.toLowerCase().includes("track")) {
-    botReply = `Please provide your Ticket ID to track your complaint status.`;
-  }
-
+  // Show user message immediately
   setMessages((prev) => [
     ...prev,
     { role: "user", text: userText, time: "Now" },
-    { role: "bot", text: botReply, time: "Now" },
   ]);
 
   setInput("");
+
+  try {
+    const res = await fetch("http://localhost:3000/chat", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ message: userText }),
+    });
+
+    const data = await res.json();
+
+    setMessages((prev) => [
+      ...prev,
+      {
+        role: "bot",
+        text: data.reply || "Sorry, I couldn't understand that.",
+        time: "Now",
+      },
+    ]);
+  } catch (error) {
+    console.error(error);
+    setMessages((prev) => [
+      ...prev,
+      {
+        role: "bot",
+        text: "⚠️ Server error. Please try again later.",
+        time: "Now",
+      },
+    ]);
+  }
 };
+const startListening = () => {
+  if (!("webkitSpeechRecognition" in window || "SpeechRecognition" in window)) {
+    alert("Speech recognition not supported in this browser");
+    return;
+  }
+
+  const SpeechRecognition =
+    window.SpeechRecognition || window.webkitSpeechRecognition;
+
+  if (!recognitionRef.current) {
+    recognitionRef.current = new SpeechRecognition();
+    recognitionRef.current.lang = "en-IN"; // Hindi-English mix
+    recognitionRef.current.continuous = false;
+    recognitionRef.current.interimResults = false;
+
+    recognitionRef.current.onresult = (event) => {
+      const transcript = event.results[0][0].transcript;
+      setInput(transcript); // put text into input box
+    };
+
+    recognitionRef.current.onerror = (event) => {
+      console.error("Speech error:", event.error);
+      setListening(false);
+    };
+
+    recognitionRef.current.onend = () => {
+      setListening(false);
+    };
+  }
+
+  setListening(true);
+  recognitionRef.current.start();
+};
+
 
   return (
     <section className="bg-gray-50 min-h-screen py-6">
@@ -152,9 +166,17 @@ Please share:
 
           {/* INPUT BAR */}
           <div className="border-t p-4 flex items-center gap-3">
-            <button className="w-10 h-10 rounded-xl border flex items-center justify-center hover:bg-orange-100 hover:border-orange-400 transition">
-              <Mic size={18} />
-            </button>
+            <button
+  onClick={startListening}
+  className={`w-10 h-10 rounded-xl border flex items-center justify-center transition
+    ${
+      listening
+        ? "bg-red-100 border-red-400 animate-pulse"
+        : "hover:bg-orange-100 hover:border-orange-400"
+    }`}
+>
+  <Mic size={18} className={listening ? "text-red-500" : ""} />
+</button>
 
             <input
               value={input}

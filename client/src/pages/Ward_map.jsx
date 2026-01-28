@@ -65,6 +65,7 @@ const issuesData = [
     status: "Critical",
     lat: 28.5206,
     lng: 77.2019,
+    Assigned: "Roads & Infrastructure Department",
   },
   {
     id: 2,
@@ -74,6 +75,7 @@ const issuesData = [
     status: "Pending",
     lat: 28.6519,
     lng: 77.1909,
+    Assigned: "Electrical Department"
   },
   {
     id: 3,
@@ -83,6 +85,7 @@ const issuesData = [
     status: "In Progress",
     lat: 28.5677,
     lng: 77.2433,
+    Assigned: "Sanitation & Waste Department"
   },
   {
     id: 4,
@@ -92,6 +95,7 @@ const issuesData = [
     status: "Pending",
     lat: 28.6315,
     lng: 77.2167,
+    Assigned: "Water Supply Department"
   },
   {
     id: 5,
@@ -101,6 +105,7 @@ const issuesData = [
     status: "Resolved",
     lat: 28.5921,
     lng: 77.046,
+    Assigned: "Sanitation & Waste Department"
   },
   {
     id: 6,
@@ -110,6 +115,7 @@ const issuesData = [
     status: "Pending",
     lat: 28.636,
     lng: 77.225,
+    Assigned: "Roads & Infrastructure Department"
   },
 ];
 
@@ -184,6 +190,7 @@ export default function Ward_map() {
                 <p className="text-xs mt-1">
                   {iconConfig[issue.type].emoji} {issue.status}
                 </p>
+                <p className="text-xs mt-1">Assigned to: {issue.Assigned}</p>
               </Popup>
             </Marker>
           ))}
