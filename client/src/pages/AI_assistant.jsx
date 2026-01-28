@@ -41,13 +41,14 @@ const [listening, setListening] = useState(false);
   setInput("");
 
   try {
-    const res = await fetch("http://localhost:3000/chat", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ message: userText }),
-    });
+    const res = await fetch("https://nagrik-server.vercel.app/chat", {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json",
+  },
+  body: JSON.stringify({ message: userText }),
+});
+
 
     const data = await res.json();
 
