@@ -1,14 +1,16 @@
 import { useRef, useState } from "react";
 import { Camera, Image as ImageIcon, Upload } from "lucide-react";
 
-export default function UploadStep({ image, setImage, onNext }) {
+export default function UploadStep({ image, setImage, setForm, onNext }) {
   const galleryRef = useRef(null);
   const videoRef = useRef(null);
   const canvasRef = useRef(null);
 
   const [cameraOn, setCameraOn] = useState(false);
   const [stream, setStream] = useState(null);
+  const [loading, setLoading] = useState(false);
 
+  // ---------- CAMERA ----------
   const startCamera = async () => {
     try {
       const media = await navigator.mediaDevices.getUserMedia({
@@ -17,24 +19,73 @@ export default function UploadStep({ image, setImage, onNext }) {
       videoRef.current.srcObject = media;
       setStream(media);
       setCameraOn(true);
-    } catch {
-      alert("Camera permission denied");
+    } catch (err) {
+      alert("Camera permission denied. Please use gallery upload.");
     }
   };
 
-  const capture = () => {
+  const capture = async () => {
     const canvas = canvasRef.current;
     const video = videoRef.current;
 
     canvas.width = video.videoWidth;
     canvas.height = video.videoHeight;
+    canvas.getContext("2d").drawImage(video, 0, 0);
 
-    const ctx = canvas.getContext("2d");
-    ctx.drawImage(video, 0, 0);
+    const blob = await new Promise((resolve) =>
+      canvas.toBlob(resolve, "image/png")
+    );
 
-    setImage(canvas.toDataURL("image/png"));
-    stream.getTracks().forEach((t) => t.stop());
+    const file = new File([blob], "camera.png", { type: "image/png" });
+
+    setImage({
+      file,
+      preview: URL.createObjectURL(blob),
+    });
+
+    stream?.getTracks().forEach((t) => t.stop());
     setCameraOn(false);
+  };
+
+  // ---------- AI CALL ----------
+  const callAI = async () => {
+    if (!image?.file) {
+      alert("Please upload or capture an image first.");
+      return;
+    }
+
+    setLoading(true);
+
+    const formData = new FormData();
+    formData.append("file", image.file);
+
+    try {
+      const res = await fetch("http://127.0.0.1:8000/predict", {
+        method: "POST",
+        body: formData,
+      });
+
+      if (!res.ok) {
+        throw new Error(`Server error: ${res.status}`);
+      }
+
+      const data = await res.json();
+      console.log("AI DATA:", data);
+
+      setForm((prev) => ({
+        ...prev,
+        category: data.issue_type,
+        title: data.title,
+        description: data.description,
+      }));
+
+      onNext();
+    } catch (err) {
+      console.error("AI ERROR:", err);
+      alert("AI analysis failed. Is backend running?");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -44,12 +95,14 @@ export default function UploadStep({ image, setImage, onNext }) {
       </h3>
 
       <p className="text-gray-500 mb-6">
-        Our AI will automatically detect the issue type from your photo
+        Our AI will automatically detect the issue type
       </p>
 
       <div className="border-2 border-dashed border-teal-300 rounded-xl p-8 text-center">
+
+        {/* CAMERA VIEW */}
         {cameraOn && (
-          <div className="space-y-4">
+          <>
             <video
               ref={videoRef}
               autoPlay
@@ -57,36 +110,28 @@ export default function UploadStep({ image, setImage, onNext }) {
             />
             <button
               onClick={capture}
-              className="px-6 py-3 bg-orange-500 text-white rounded-xl font-medium"
+              className="mt-4 bg-orange-500 text-white px-6 py-3 rounded-xl"
             >
-              📸 Capture Photo
+              📸 Capture
             </button>
-            <canvas ref={canvasRef} className="hidden" />
-          </div>
+            <canvas ref={canvasRef} hidden />
+          </>
         )}
 
-        {!cameraOn && !image && (
+        {/* INITIAL STATE */}
+        {!cameraOn && !image?.preview && (
           <>
             <Upload className="mx-auto mb-3 text-gray-400" size={36} />
-
-            <p className="font-medium">Drop an image or click to upload</p>
+            <p className="font-medium">Drop image or upload</p>
             <p className="text-xs text-gray-500 mb-6">JPG, PNG up to 10MB</p>
-
-            <div className="flex justify-center gap-4">
-              <button
-                onClick={startCamera}
-                className="px-5 py-2.5 rounded-xl border font-medium flex items-center gap-2
-                  bg-gray-100 text-gray-700
-                  hover:bg-orange-500 hover:text-white hover:border-orange-500 transition"
-              >
+            <div className="flex justify-center gap-4 mt-6">
+              <button onClick={startCamera} className="btn">
                 <Camera size={18} /> Take Photo
               </button>
 
               <button
                 onClick={() => galleryRef.current.click()}
-                className="px-5 py-2.5 rounded-xl border font-medium flex items-center gap-2
-                  bg-gray-100 text-gray-700
-                  hover:bg-orange-500 hover:text-white hover:border-orange-500 transition"
+                className="btn"
               >
                 <ImageIcon size={18} /> Gallery
               </button>
@@ -94,37 +139,45 @@ export default function UploadStep({ image, setImage, onNext }) {
               <input
                 ref={galleryRef}
                 type="file"
-                accept="image/*"
                 hidden
-                onChange={(e) =>
-                  setImage(URL.createObjectURL(e.target.files[0]))
-                }
+                accept="image/*"
+                onChange={(e) => {
+                  const file = e.target.files[0];
+                  if (!file) return;
+                  setImage({
+                    file,
+                    preview: URL.createObjectURL(file),
+                  });
+                }}
               />
             </div>
           </>
         )}
 
-        {image && (
-          <div className="space-y-4">
-            <img src={image} className="mx-auto max-h-64 rounded-xl border" />
+        {/* PREVIEW */}
+        {image?.preview && (
+          <>
+            <img
+              src={image.preview}
+              className="mx-auto max-h-64 rounded-xl border"
+            />
 
-            <div className="flex justify-between">
+            <div className="flex justify-between mt-6">
               <button
-                onClick={() => setImage(null)}
-                className="px-5 py-2.5 border rounded-xl font-medium
-          hover:bg-gray-100 transition"
+                onClick={() => setImage({ file: null, preview: null })}
               >
                 ← Retake
               </button>
 
               <button
-                onClick={onNext}
-                className="px-6 py-3 bg-teal-600 text-white rounded-xl font-medium hover:bg-teal-700 transition"
+                onClick={callAI}
+                disabled={loading}
+                className="bg-teal-600 text-white px-6 py-3 rounded-xl"
               >
-                Continue with AI Detection →
+                {loading ? "Analyzing..." : "Continue →"}
               </button>
             </div>
-          </div>
+          </>
         )}
       </div>
     </div>

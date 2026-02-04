@@ -23,3 +23,12 @@
   height: 100%;
   width: 100%;
 }
+@layer components {
+  .btn {
+    @apply flex items-center gap-2 px-5 py-3 rounded-xl
+           border-1 border-gray-700
+           bg-gray-100 text-gray-800 font-semibold
+           transition-all duration-300 ease-in-out
+           hover:bg-orange-500 hover:text-white hover:border-orange-500;
+  }
+}

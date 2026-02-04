@@ -1,9 +1,13 @@
 import { useNavigate } from "react-router-dom";
 import { CheckCircle } from "lucide-react";
 
-
-export default function ReportSuccess({ onBack }) {
+export default function ReportSuccess({ form, onBack }) {
   const navigate = useNavigate();
+
+  // simple client-side ticket ID
+  const ticketId = `TKT-${new Date().getFullYear()}-${Math.floor(
+    1000 + Math.random() * 9000
+  )}`;
 
   return (
     <section className="bg-gray-50 min-h-screen flex items-center justify-center px-6">
@@ -26,15 +30,15 @@ export default function ReportSuccess({ onBack }) {
         <div className="bg-gray-100 rounded-xl py-4 mb-6">
           <p className="text-sm text-gray-500">Ticket ID</p>
           <p className="text-xl font-bold tracking-widest text-teal-700">
-            TKT-2024-3530
+            {ticketId}
           </p>
         </div>
 
         {/* DETAILS */}
         <div className="text-sm mb-6 space-y-2 text-left">
-          <Row label="Category" value="Pothole" />
-          <Row label="Ward" value="2" />
-          <Row label="Priority" value="High" color="text-orange-500" />
+          <Row label="Category" value={form.category} />
+          <Row label="Ward" value={form.ward || "Not specified"} />
+          <Row label="Priority" value="AI Assigned" color="text-orange-500" />
           <Row label="Est. Resolution" value="3–5 days" />
         </div>
 

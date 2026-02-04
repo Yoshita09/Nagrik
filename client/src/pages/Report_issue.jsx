@@ -6,31 +6,33 @@ import ReportSuccess from "../components/ReportIssue/ReportSuccess";
 
 export default function ReportIssue() {
   const [step, setStep] = useState(1);
-  const [image, setImage] = useState(null);
+
+  const [image, setImage] = useState({
+    file: null,
+    preview: null,
+  });
 
   const [form, setForm] = useState({
-    category: "Pothole / Road Damage",
-    title: "Pothole detected on road",
-    description:
-      "AI has detected a pothole in the uploaded image. The pothole appears to be medium-sized and could pose a safety risk for vehicles.",
+    category: "",
+    title: "",
+    description: "",
     ward: "",
     landmark: "",
     address: "",
   });
-  const resetForm = () => {
-  setStep(1);
-  setImage(null);
-  setForm({
-    category: "Pothole / Road Damage",
-    title: "Pothole detected on road",
-    description:
-      "AI has detected a pothole in the uploaded image. The pothole appears to be medium-sized and could pose a safety risk for vehicles.",
-    ward: "",
-    landmark: "",
-    address: "",
-  });
-};
 
+  const resetForm = () => {
+    setStep(1);
+    setImage({ file: null, preview: null });
+    setForm({
+      category: "",
+      title: "",
+      description: "",
+      ward: "",
+      landmark: "",
+      address: "",
+    });
+  };
 
   return (
     <section className="bg-gray-50 min-h-screen py-10">
@@ -57,6 +59,7 @@ export default function ReportIssue() {
           <UploadStep
             image={image}
             setImage={setImage}
+            setForm={setForm}     // 🔥 REQUIRED FOR AI AUTOFILL
             onNext={() => setStep(2)}
           />
         )}
@@ -78,14 +81,13 @@ export default function ReportIssue() {
             onNext={() => setStep(4)}
           />
         )}
+
         {step === 4 && (
           <ReportSuccess
-            image={image}
             form={form}
             onBack={resetForm}
           />
         )}
-
 
       </div>
     </section>
@@ -99,7 +101,7 @@ function Step({ num, text, active }) {
     <div className="flex items-center gap-2">
       <div
         className={`w-9 h-9 flex items-center justify-center rounded-full font-semibold
-          ${active ? "bg-teal-600 text-white" : "bg-gray-200 text-gray-500"}`}
+        ${active ? "bg-teal-600 text-white" : "bg-gray-200 text-gray-500"}`}
       >
         {num}
       </div>

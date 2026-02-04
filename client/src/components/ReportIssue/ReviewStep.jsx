@@ -7,7 +7,7 @@ export default function ReviewStep({ image, form, onBack, onNext }) {
       </p>
 
       <div className="border rounded-xl overflow-hidden mb-6">
-        <img src={image} className="w-full max-h-72 object-cover" />
+        <img src={image.preview} className="w-full max-h-72 object-cover" />
       </div>
 
       <div className="space-y-2 text-sm">
