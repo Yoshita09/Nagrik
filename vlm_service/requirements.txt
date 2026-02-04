@@ -1,0 +1,6 @@
+fastapi
+uvicorn
+torch
+transformers
+PIL (pillow)
+numpy
