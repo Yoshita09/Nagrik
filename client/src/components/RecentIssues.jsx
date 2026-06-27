@@ -1,110 +1,78 @@
+import { useEffect, useState } from "react";
 import IssueCard from "./IssueCard";
-
+import { supabase } from "../lib/supabase";
 
 export default function RecentIssues() {
-  const issues = [
-    {
-      title: "Large pothole on MG Road",
-      id: "#ISS-001",
-      desc: "Dangerous pothole near bus stop causing accidents",
-      priority: "Critical",
-      priorityStyle: "bg-red-100 text-red-600",
-      category: "Roads",
-      status: "Critical",
-      statusStyle: "bg-red-100 text-red-600",
-      ward: "Ward 1",
-      time: "about 2 years ago",
-      votes: 45,
-      ai: true,
-      icon: "🕳",
-      route: "/large-potholes"
-    },
-    {
-      title: "Streetlight not working",
-      id: "#ISS-002",
-      desc: "Street lamp out for 2 weeks, safety concern at night",
-      priority: "High",
-      priorityStyle: "bg-yellow-100 text-yellow-700",
-      category: "Electricity",
-      status: "Pending",
-      statusStyle: "bg-yellow-100 text-yellow-700",
-      ward: "Ward 1",
-      time: "about 2 years ago",
-      votes: 28,
-      ai: false,
-      icon: "💡",
-      route: "/streetlight"
-    },
-    {
-      title: "Garbage overflow at bin",
-      id: "#ISS-003",
-      desc: "Community bin overflowing, attracting stray animals",
-      priority: "Medium",
-      priorityStyle: "bg-orange-100 text-orange-600",
-      category: "Sanitation",
-      status: "In Progress",
-      statusStyle: "bg-orange-100 text-orange-600",
-      ward: "Ward 2",
-      time: "about 2 years ago",
-      votes: 15,
-      ai: true,
-      icon: "🗑",
-      route: "/garbage"
-    },
-    {
-      title: "Water pipeline leak",
-      id: "#ISS-004",
-      desc: "Major water wastage from broken pipeline",
-      priority: "High",
-      priorityStyle: "bg-yellow-100 text-yellow-700",
-      category: "Water",
-      status: "Pending",
-      statusStyle: "bg-yellow-100 text-yellow-700",
-      ward: "Ward 2",
-      time: "about 2 years ago",
-      votes: 32,
-      ai: false,
-      icon: "💧",
-      route: "/pipeline"
-    },
-    {
-      title: "Sewage blockage",
-      id: "#ISS-005",
-      desc: "Blocked drain causing water logging during rain",
-      priority: "Medium",
-      priorityStyle: "bg-orange-100 text-orange-600",
-      category: "Water",
-      status: "Resolved",
-      statusStyle: "bg-green-100 text-green-600",
-      ward: "Ward 3",
-      time: "about 2 years ago",
-      votes: 10,
-      ai: false,
-      icon: "🚰",
-      route: "/sewage"
-    },
-    {
-      title: "Multiple potholes on inner road",
-      id: "#ISS-006",
-      desc: "Several potholes making road unusable",
-      priority: "High",
-      priorityStyle: "bg-yellow-100 text-yellow-700",
-      category: "Roads",
-      status: "Pending",
-      statusStyle: "bg-yellow-100 text-yellow-700",
-      ward: "Ward 3",
-      time: "about 2 years ago",
-      votes: 38,
-      ai: true,
-      icon: "🛣",
-      route: "/inner-road"
+  const [issues, setIssues] = useState([]);
+
+  useEffect(() => {
+    fetchRecentIssues();
+  }, []);
+
+  const fetchRecentIssues = async () => {
+    // 1. Fetch latest 6 complaints
+    const { data: complaintsData, error } = await supabase
+      .from("complaints")
+      .select("*")
+      .order("created_at", { ascending: false })
+      .limit(6);
+
+    if (error) {
+      console.error("Error fetching recent issues:", error);
+      return;
     }
-  ];
+
+    // 2. Fetch complaint updates
+    const { data: updatesData, error: updatesError } = await supabase
+      .from("complaint_update")
+      .select("complaint_id, status, created_at")
+      .order("created_at", { ascending: false });
+
+    if (updatesError) {
+      console.error("Error fetching complaint updates:", updatesError);
+    }
+
+    // 3. Make latest status map by complaint_id
+    const latestStatusMap = {};
+
+    updatesData?.forEach((update) => {
+      if (!latestStatusMap[update.complaint_id]) {
+        latestStatusMap[update.complaint_id] = update.status;
+      }
+    });
+
+    // 4. Format issues (ONLY status changes)
+    const formattedIssues = complaintsData.map((item) => {
+      const finalStatus = latestStatusMap[item.id] || item.status;
+
+      return {
+        title: item.title,
+        id: `#${item.id}`,
+        desc: item.description,
+
+        // ✅ only status-based things updated
+        priority: getPriority(finalStatus),
+        priorityStyle: getPriorityStyle(finalStatus),
+        status: finalStatus,
+        statusStyle: getStatusStyle(finalStatus),
+
+        // ✅ everything else stays from complaints table
+        category: mapCategory(item.department),
+        ward: item.ward ? `Ward ${item.ward}` : "Ward N/A",
+        time: formatDate(item.created_at),
+        votes: item.upvotes ?? 0,
+        ai: true,
+        icon: getIcon(item.department),
+        route: `/complaint/${item.id}`,
+      };
+    });
+
+    setIssues(formattedIssues);
+  };
 
   return (
     <section className="bg-gray-50 py-6">
       <div className="max-w-7xl mx-auto px-6">
-
         {/* Header */}
         <div className="flex justify-between items-center mb-10">
           <div>
@@ -125,8 +93,60 @@ export default function RecentIssues() {
             <IssueCard key={i} data={item} />
           ))}
         </div>
-
       </div>
     </section>
   );
+}
+
+/* ---------- HELPERS ---------- */
+
+function getStatusStyle(status) {
+  if (status === "Critical") return "bg-red-100 text-red-600";
+  if (status === "Pending") return "bg-yellow-100 text-yellow-700";
+  if (status === "In Progress") return "bg-orange-100 text-orange-600";
+  if (status === "Resolved") return "bg-green-100 text-green-600";
+  if (status === "Assigned") return "bg-blue-100 text-blue-600";
+  return "bg-gray-100 text-gray-600";
+}
+
+function getPriority(status) {
+  if (status === "Critical") return "Critical";
+  if (status === "Pending") return "High";
+  if (status === "In Progress") return "Medium";
+  if (status === "Resolved") return "Low";
+  if (status === "Assigned") return "Medium";
+  return "Medium";
+}
+
+function getPriorityStyle(status) {
+  if (status === "Critical") return "bg-red-100 text-red-600";
+  if (status === "Pending") return "bg-yellow-100 text-yellow-700";
+  if (status === "In Progress") return "bg-orange-100 text-orange-600";
+  if (status === "Resolved") return "bg-green-100 text-green-600";
+  if (status === "Assigned") return "bg-blue-100 text-blue-600";
+  return "bg-gray-100 text-gray-600";
+}
+
+function mapCategory(department) {
+  if (department?.includes("Road")) return "Roads";
+  if (department?.includes("Electrical")) return "Electricity";
+  if (department?.includes("Water")) return "Water";
+  if (department?.includes("Sanitation")) return "Sanitation";
+  return "General";
+}
+
+function getIcon(department) {
+  if (department?.includes("Road")) return "🕳";
+  if (department?.includes("Electrical")) return "💡";
+  if (department?.includes("Water")) return "💧";
+  if (department?.includes("Sanitation")) return "🗑";
+  return "📍";
+}
+
+function formatDate(date) {
+  return new Date(date).toLocaleDateString("en-IN", {
+    day: "2-digit",
+    month: "short",
+    year: "numeric",
+  });
 }

@@ -6,6 +6,7 @@ import ReportSuccess from "../components/ReportIssue/ReportSuccess";
 
 export default function ReportIssue() {
   const [step, setStep] = useState(1);
+  const [complaintId, setComplaintId] = useState(null);
 
   const [image, setImage] = useState({
     file: null,
@@ -23,6 +24,7 @@ export default function ReportIssue() {
 
   const resetForm = () => {
     setStep(1);
+    setComplaintId(null);
     setImage({ file: null, preview: null });
     setForm({
       category: "",
@@ -37,7 +39,6 @@ export default function ReportIssue() {
   return (
     <section className="bg-gray-50 min-h-screen py-10">
       <div className="max-w-4xl mx-auto px-6">
-
         {/* HEADER */}
         <div className="text-center mb-8">
           <h1 className="text-3xl font-bold">Report an Issue</h1>
@@ -59,7 +60,7 @@ export default function ReportIssue() {
           <UploadStep
             image={image}
             setImage={setImage}
-            setForm={setForm}     // 🔥 REQUIRED FOR AI AUTOFILL
+            setForm={setForm} // 🔥 REQUIRED FOR AI AUTOFILL
             onNext={() => setStep(2)}
           />
         )}
@@ -78,17 +79,18 @@ export default function ReportIssue() {
             image={image}
             form={form}
             onBack={() => setStep(2)}
-            onNext={() => setStep(4)}
+            onNext={(id) => {
+              setComplaintId(id);
+              setStep(4);
+            }}
           />
         )}
 
-        {step === 4 && (
-          <ReportSuccess
-            form={form}
-            onBack={resetForm}
-          />
-        )}
-
+        {step === 4 && <ReportSuccess
+  form={form}
+  onBack={resetForm}
+  complaintId={complaintId}
+/>}
       </div>
     </section>
   );

@@ -1,5 +1,6 @@
 // src/App.jsx
 import { Routes, Route } from "react-router-dom";
+import ScrollToTop from "./components/ScrollToTop";
 
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
@@ -18,20 +19,14 @@ import Ward_map from "./pages/Ward_map";
 import GovComplaints from "./pages/ComplaintBox/GovComplaints";
 import GovComplaintUpdate from "./pages/ComplaintBox/GovComplaintUpdate";
 import AIAssistant from "./pages/AI_assistant";
+import ViewComplaintDetails from "./pages/ViewComplaintDetails";
 
-// View Details
-import LargePotholes from "./pages/ViewDetails/LargePotholes";
-import Streetlight from "./pages/ViewDetails/StreetLight";
-import Garbage from "./pages/ViewDetails/Garbage";
-import Pipeline from "./pages/ViewDetails/Pipeline";
-import Sewage from "./pages/ViewDetails/Sewage";
-import InnerRoad from "./pages/ViewDetails/InnerRoad";
 
 export default function App() {
   return (
     <>
       <Navbar />
-
+      <ScrollToTop />
       <Routes>
         {/* Public */}
         <Route path="/" element={<Home />} />
@@ -103,12 +98,13 @@ export default function App() {
         />
 
         {/* Shared */}
-        <Route path="/large-potholes" element={<LargePotholes />} />
+        {/* <Route path="/gov-complaints/:id" element={<LargePotholes />} />
         <Route path="/streetlight" element={<Streetlight />} />
         <Route path="/garbage" element={<Garbage />} />
         <Route path="/pipeline" element={<Pipeline />} />
         <Route path="/sewage" element={<Sewage />} />
-        <Route path="/inner-road" element={<InnerRoad />} />
+        <Route path="/inner-road" element={<InnerRoad />} /> */}
+        <Route path="/complaint/:id" element={<ViewComplaintDetails />} />
       </Routes>
 
       <Footer />

@@ -28,7 +28,7 @@ export default function IssueCard({ data }) {
           </div>
 
           <div className="flex gap-2 flex-wrap sm:flex-nowrap">
-            {data.ai && (
+            {/* {data.ai && (
               <span
                 className="px-3 py-1 rounded-full text-xs 
                      bg-teal-100 text-primary 
@@ -36,7 +36,7 @@ export default function IssueCard({ data }) {
               >
                 AI Detected
               </span>
-            )}
+            )} */}
 
             <span
               className={`px-3 py-1 rounded-full text-xs 
@@ -52,11 +52,7 @@ export default function IssueCard({ data }) {
 
         {/* Tags */}
         <div className="flex gap-2 mt-4 flex-wrap">
-          <span
-            className={`px-3 py-1 rounded-full text-xs ${data.priorityStyle}`}
-          >
-            {data.priority}
-          </span>
+          
           <span className="px-3 py-1 rounded-full text-xs bg-gray-100 text-gray-600">
             {data.category}
           </span>

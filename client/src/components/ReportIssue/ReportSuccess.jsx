@@ -1,19 +1,15 @@
 import { useNavigate } from "react-router-dom";
 import { CheckCircle } from "lucide-react";
 
-export default function ReportSuccess({ form, onBack }) {
-  const navigate = useNavigate();
 
-  // simple client-side ticket ID
-  const ticketId = `TKT-${new Date().getFullYear()}-${Math.floor(
-    1000 + Math.random() * 9000
-  )}`;
+export default function ReportSuccess({ form, onBack, complaintId }) {
+  const navigate = useNavigate();
 
   return (
     <section className="bg-gray-50 min-h-screen flex items-center justify-center px-6">
       <div className="bg-white rounded-2xl shadow-sm p-8 w-full max-w-md text-center">
 
-        {/* SUCCESS ICON */}
+        {/* ICON */}
         <div className="flex justify-center mb-4">
           <div className="w-16 h-16 rounded-full bg-green-100 flex items-center justify-center">
             <CheckCircle size={36} className="text-green-600" />
@@ -26,11 +22,12 @@ export default function ReportSuccess({ form, onBack }) {
           Your complaint has been successfully registered.
         </p>
 
-        {/* TICKET ID */}
+        {/* ✅ FULL SUPABASE ID */}
         <div className="bg-gray-100 rounded-xl py-4 mb-6">
-          <p className="text-sm text-gray-500">Ticket ID</p>
-          <p className="text-xl font-bold tracking-widest text-teal-700">
-            {ticketId}
+          <p className="text-sm text-gray-500">Complaint ID</p>
+
+          <p className="text-sm font-mono break-all text-teal-700">
+            {complaintId ? complaintId : "Error: ID not found"}
           </p>
         </div>
 
@@ -42,18 +39,18 @@ export default function ReportSuccess({ form, onBack }) {
           <Row label="Est. Resolution" value="3–5 days" />
         </div>
 
-        {/* ACTION BUTTONS */}
+        {/* BUTTONS */}
         <div className="flex gap-4">
           <button
             onClick={onBack}
-            className="flex-1 bg-orange-500 text-white py-3 rounded-xl font-medium hover:bg-orange-600 transition"
+            className="flex-1 bg-orange-500 text-white py-3 rounded-xl"
           >
             Report Another
           </button>
 
           <button
             onClick={() => navigate("/dashboard")}
-            className="flex-1 bg-teal-600 text-white py-3 rounded-xl font-medium hover:bg-teal-700 transition"
+            className="flex-1 bg-teal-600 text-white py-3 rounded-xl"
           >
             Report Analysis
           </button>
@@ -63,8 +60,6 @@ export default function ReportSuccess({ form, onBack }) {
     </section>
   );
 }
-
-/* ---------- SMALL COMPONENT ---------- */
 
 function Row({ label, value, color = "text-gray-800" }) {
   return (

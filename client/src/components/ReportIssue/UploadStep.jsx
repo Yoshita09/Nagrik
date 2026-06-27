@@ -1,5 +1,6 @@
 import { useRef, useState } from "react";
 import { Camera, Image as ImageIcon, Upload } from "lucide-react";
+import { supabase } from "../../lib/supabase";
 
 export default function UploadStep({ image, setImage, setForm, onNext }) {
   const galleryRef = useRef(null);
@@ -49,44 +50,68 @@ export default function UploadStep({ image, setImage, setForm, onNext }) {
 
   // ---------- AI CALL ----------
   const callAI = async () => {
-    if (!image?.file) {
-      alert("Please upload or capture an image first.");
-      return;
+  if (!image?.file) {
+    alert("Please upload or capture an image first.");
+    return;
+  }
+
+  setLoading(true);
+
+  const formData = new FormData();
+  formData.append("file", image.file);
+
+  try {
+    // 🔹 STEP 1: Call AI
+    const res = await fetch("http://127.0.0.1:8000/predict", {
+      method: "POST",
+      body: formData,
+    });
+
+    if (!res.ok) {
+      throw new Error(`Server error: ${res.status}`);
     }
 
-    setLoading(true);
+    const data = await res.json();
+    console.log("AI DATA:", data);
 
-    const formData = new FormData();
-    formData.append("file", image.file);
+    // 🔹 STEP 2: Map department
+    const mapDept = (issue) => {
+      if (issue.includes("Pothole") || issue.includes("Road"))
+        return "Roads & Infrastructure";
+      if (issue.includes("Garbage"))
+        return "Sanitation & Waste";
+      if (issue.includes("Water"))
+        return "Water Supply";
+      if (issue.includes("Streetlight"))
+        return "Electrical Department";
+      return "General";
+    };
 
-    try {
-      const res = await fetch("http://127.0.0.1:8000/predict", {
-        method: "POST",
-        body: formData,
-      });
+    const department = mapDept(data.issue_type);
 
-      if (!res.ok) {
-        throw new Error(`Server error: ${res.status}`);
-      }
+    // 🔥 STEP 3: SAVE TO SUPABASE (THIS IS THE NEW PART)
+   
 
-      const data = await res.json();
-      console.log("AI DATA:", data);
+    
 
-      setForm((prev) => ({
-        ...prev,
-        category: data.issue_type,
-        title: data.title,
-        description: data.description,
-      }));
+    // 🔹 STEP 4: Update form (your existing logic)
+    setForm((prev) => ({
+      ...prev,
+      category: data.issue_type,
+      title: data.title,
+      description: data.description,
+    }));
 
-      onNext();
-    } catch (err) {
-      console.error("AI ERROR:", err);
-      alert("AI analysis failed. Is backend running?");
-    } finally {
-      setLoading(false);
-    }
-  };
+    // 🔹 STEP 5: Move next
+    onNext();
+
+  } catch (err) {
+    console.error("AI ERROR:", err);
+    alert("AI analysis failed. Is backend running?");
+  } finally {
+    setLoading(false);
+  }
+};
 
   return (
     <div className="bg-white rounded-2xl shadow-sm p-8">

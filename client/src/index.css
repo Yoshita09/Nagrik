@@ -32,3 +32,46 @@
            hover:bg-orange-500 hover:text-white hover:border-orange-500;
   }
 }
+
+/* Hide buttons while printing */
+/* ===== PRINT SETTINGS ===== */
+
+@media print {
+
+  body {
+    margin: 0;
+    padding: 0;
+  }
+
+  /* Hide buttons */
+  .no-print {
+    display: none !important;
+  }
+
+  /* A4 SIZE FIX */
+  .a4 {
+    width: 845px !important;   /* ✅ A4 width */
+    margin: 0 auto;
+  }
+
+  /* Ensure proper scaling */
+  .print-area {
+    zoom: 0.95;   /* adjust 0.9–1 if needed */
+  }
+
+  /* Page break fix */
+  .page-break {
+    page-break-before: always;
+  }
+
+  /* Avoid cutting components */
+  .card, .chart, .section {
+    page-break-inside: avoid;
+  }
+  
+  .department-text {
+    text-align: left !important;
+  }
+}
+
+
