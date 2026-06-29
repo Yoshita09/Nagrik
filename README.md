@@ -1,128 +1,225 @@
-# 🇮🇳 Nagrik – AI-Powered Smart Civic Platform
+# Nagrik – AI Powered Smart Civic Platform
 
-**Nagrik** a smart civic assistance platform that makes it easy for citizens to report local problems and helps government departments manage, analyze and resolve complaints efficiently using **AI-powered assistance**.
+> An AI-powered civic issue management platform that enables citizens to report, track, and resolve community issues through intelligent automation and a multi-agent AI architecture.
 
-The platform integrates a modern web interface, backend services and an AI system that includes **voice-based issue transcription and image understanding**.
+## Live Demo
 
----
+**Deployed Application:**  
+https://nagrik-928797162550.asia-south1.run.app/
 
-## ✨ Key Features
-
-- 📸 **Image-based Complaint Reporting**
-- 🎙️ **Voice Assistant for Issue Transcription**
-- 🤖 **AI-assisted Issue Understanding**
-- 🏢 **Autonomous AI Delegation to Relevant Government Departments**
-- 🔄 **Manual Department Reassignment by Authorities**
-- 📊 **Department-wise Complaint Management Dashboard**
-- 🕒 **Detailed Complaint Timeline Tracking**
-- 🧠 **Vision Language Model (VLM) Integration**
+**Demo Video:**  
+https://drive.google.com/file/d/1g6e3H4Lonv71yB7gjrFOUYvKhK3dUrXF/view?usp=sharing
 
 ---
 
-## 🧱 Tech Stack
+## Problem
 
-### Frontend
-- **React (Vite)**
-- **Tailwind CSS**
+Communities frequently face issues such as potholes, water leakages, damaged streetlights, overflowing garbage, sewage blockages, and deteriorating public infrastructure. Existing complaint systems are often fragmented, difficult to track, and lack transparency.
 
-### Backend
-- **Node.js**
-- **Express.js**
-- **REST APIs**
-
-### AI / ML Services
-- **Python**
-- **FastAPI**
-- **OpenCV**
-- **Vision Language Models (VLM)**
-- **Voice-based Speech-to-Text Transcription**
-- **Pickle (.pkl) Issue Embeddings**
-
-### Deployment
-- **Vercel (Client & Server)**
-- **Render(VLM Service)**
+Nagrik transforms traditional complaint portals into an AI-powered civic intelligence platform by automating issue understanding, department routing, complaint tracking, and government analytics.
 
 ---
 
-## 📁 Project Structure
-```bash
+# Features
+
+### AI Civic Assistant
+- Natural language interaction using voice or text
+- Supports English and Hindi
+- AI-powered complaint generation
+
+### Vision AI Issue Detection
+- Upload an image to report an issue
+- Automatic issue detection using Vision Language Models
+- AI-generated complaint title and description
+
+### Autonomous Complaint Routing
+- Automatic department prediction
+- AI-powered priority assignment
+- Community upvotes influence complaint priority
+- Intelligent complaint delegation
+
+### Government Complaint Management
+- Real-time complaint dashboard
+- Department-wise filtering
+- Status updates
+- Progress notes
+- Manual department reassignment
+
+### Live Complaint Tracking
+- Submitted
+- Assigned
+- In Progress
+- Resolved
+
+### Interactive Ward Map
+- Geo-tagged complaints
+- Real-time status visualization
+- Issue-wise filtering
+- Ward-level insights
+
+### Government Analytics Dashboard
+- Ward-wise statistics
+- Department performance
+- Resolution trends
+- Priority queue monitoring
+- Export analytics as PDF
+
+### Gamification
+- Citizen points
+- Badges
+- Achievements
+- Community engagement
+
+---
+
+# Multi-Agent AI Architecture
+
+### Agent 1 — Citizen Understanding Agent
+- Processes text and voice inputs
+- Speech-to-Text conversion
+- Understands citizen intent
+- Generates structured complaints
+
+### Agent 2 — Vision Intelligence Agent
+- Vision Language Model (VLM)
+- Image understanding
+- Issue categorization
+- AI-generated complaint details
+
+### Agent 3 — Autonomous Routing & Priority Agent
+- Department prediction
+- Priority assignment
+- AI severity analysis
+- Community upvote prioritization
+- Automatic complaint delegation
+
+### Agent 4 — Civic Analytics Agent
+- Dashboard generation
+- Department analytics
+- Trend detection
+- Hotspot identification
+- Exportable PDF reports
+
+---
+
+# Workflow
+
+```
+Citizen
+      │
+      ▼
+AI Assistant (Voice/Text)
+      OR
+Image Upload
+      │
+      ▼
+Citizen Understanding Agent
+      │
+      ▼
+Vision Intelligence Agent
+      │
+      ▼
+Autonomous Routing & Priority Agent
+      │
+      ▼
+Supabase Database
+      │
+      ├──────────────► Government Portal
+      │                   │
+      │                   ├── Update Status
+      │                   ├── Add Notes
+      │                   └── Reassign Department
+      │
+      ├──────────────► Civic Analytics Agent
+      │                   │
+      │                   ├── Dashboards
+      │                   ├── Trends
+      │                   ├── Hotspots
+      │                   └── PDF Reports
+      │
+      └──────────────► Citizen Timeline
+                          │
+                          ├── Submitted
+                          ├── Assigned
+                          ├── In Progress
+                          └── Resolved
+
+                 ↓
+
+          Gamification
+      (Points • Badges • Achievements)
+```
+
+---
+
+# Tech Stack
+
+## Frontend
+- React.js
+- Vite
+- Tailwind CSS
+- JavaScript
+- React Router
+
+## Backend
+- Node.js
+- Express.js
+
+## AI / ML
+- Python
+- FastAPI
+- OpenCV
+- Vision Language Models (VLM)
+- Hugging Face Transformers
+- PyTorch
+- Speech-to-Text
+- Pickle (.pkl) Issue Embeddings
+
+## Database & Authentication
+- Supabase
+- Clerk Authentication
+
+## Deployment
+- Docker
+- Google Cloud Run
+
+---
+
+# Google Cloud Services
+
+- Google Cloud Run
+- Google Cloud Build
+- Artifact Registry
+
+---
+
+# Project Structure
+
+```
 Nagrik/
 │
-├── client/ # Frontend (React + Vite)
-│ ├── public/
-│ ├── src/
-│ ├── index.html
-│ ├── package.json
-│ ├── vite.config.js
-│ └── vercel.json
+├── client/          # React Frontend
+├── server/          # Node.js Backend
+├── vlm_service/     # FastAPI AI Service
 │
-├── server/ # Backend (Node + Express)
-│ ├── server.js
-│ ├── package.json
-│ └── vercel.json
-│
-├── vlm_service/ # AI Services (Vision + Voice)
-│ ├── main.py
-│ ├── issues.pkl
-│ ├── requirements.txt
-│ └── pycache/
-│
-└── README.md
-```
----
-
-## ⚙️ Setup Instructions
-
-### 1️⃣ Clone the Repository
-```bash
-git clone https://github.com/your-username/nagrik.git
-cd nagrik
-```
-### 1️⃣ Clone the Repository
-```bash
-cd client
-npm install
-npm run dev
-```
-3️⃣ Backend Setup (Server)
-```bash
-cd server
-npm install
-node server.js
-```
-4️⃣ AI Service Setup (VLM + Voice Assistant)
-```bash
-cd vlm_service
-pip install -r requirements.txt
-uvicorn main:app --reload
+├── README.md
+└── docker-compose.yml
 ```
 
 ---
-## 🎙️ Voice Assistant – How It Works
 
-1. The citizen describes the issue using **voice input**
-2. Audio is processed by a **Speech-to-Text model**
-3. Transcribed text is analyzed by the **AI assistant**
-4. Relevant **issue category and department** are inferred
-5. A complaint is created with **structured and clean input**
+# Future Scope
 
----
-
-## 🧠 AI Issue Understanding Flow
-
-1. **Image + Voice/Text input** is received
-2. A **Vision Language Model (VLM)** analyzes the image
-3. Text embeddings are matched using `issues.pkl`
-4. The **best-fit issue type and department** are predicted
-5. The complaint is **autonomously forwarded** to the appropriate department
-
----
-
-## 👩‍💻 Team
-
-**DraftMinds**  
-A collaborative team project focused on building AI-powered civic-tech solutions.
+- Duplicate complaint detection
+- Predictive infrastructure maintenance
+- Push notifications
+- Community verification
+- Multi-city deployment
+- Offline complaint reporting
 
 ---
 
 
+# License
+
+This project is licensed under the MIT License.
